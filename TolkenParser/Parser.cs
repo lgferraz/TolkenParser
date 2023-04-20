@@ -14,14 +14,13 @@ namespace TolkenParser
         private List<tolken> tolkens = new List<tolken>();
         private tolken tk;
         private bool conjuntoTk;
-        private int index, indexT;
+        private int index;
         public Parser(string[] entrada, TipoTolken[] tiposTolken)
         {
             this.entrada = entrada;
             this.tiposTolken = tiposTolken;
             this.conjuntoTk = false;
             this.index = 0;
-            this.indexT = 0;
         }
         private bool conjunto(string tolken)
         {
@@ -53,7 +52,6 @@ namespace TolkenParser
         private void finalizar()
         {
             this.tolkens.Add(this.tk);
-            this.indexT++;
             this.index++;
         }
         private void identificar()
