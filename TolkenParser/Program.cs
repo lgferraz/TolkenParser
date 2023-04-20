@@ -10,8 +10,10 @@ namespace TolkenParser
     {
         static void Main(string[] args)
         {
+            //entrada teste
+            string entrada = "funcao pegardata variavel lista {aa} aaa";
+
             //tokenizer
-            string entrada = "funcao pegar data variavel lista {aa} aaa";
             //separadores
             string[] separadores = new string[] { "=", "{", "}", "(", ")", ";", ",", "." };
             //instancia o tokenizer
