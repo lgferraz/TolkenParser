@@ -12,6 +12,7 @@ namespace TolkenParser
         private string[] entrada;
         private TipoTolken[] tiposTolken;
         private List<tolken> tolkens = new List<tolken>();
+        private List<string> pilha = new List<string>();
         private tolken tk;
         private bool conjuntoTk;
         private int index;
@@ -22,9 +23,10 @@ namespace TolkenParser
             this.conjuntoTk = false;
             this.index = 0;
         }
-        private bool conjunto(string tolken)
+        private bool conjunto()
         {
-            if (identificarTipo(tolken)[1] == "True")
+            Console.WriteLine("Count pilha: "+this.pilha.Count.ToString());
+            if (this.pilha.Count > 0)
             {
                 return true;
             }
@@ -37,7 +39,7 @@ namespace TolkenParser
         {
             string[] tipoR = new string[2];
             tipoR[0] = "null";
-            tipoR[1] = "null";
+            tipoR[1] = "False";
             foreach (TipoTolken tipo in this.tiposTolken)
             {
                 if (tipo.identificadores.Contains(tolken))
@@ -49,44 +51,68 @@ namespace TolkenParser
             }
             return tipoR;
         }
+        private string tolkenProximo(string tolken)
+        {
+            foreach (TipoTolken tipo in this.tiposTolken)
+            {
+                if (Array.IndexOf(tipo.identificadores, tolken)+2 <= tipo.identificadores.Length && tipo.identificadores.Contains(tolken))
+                {
+                    Console.WriteLine("iden: " + tipo.identificadores[Array.IndexOf(tipo.identificadores, tolken)]);
+                    return tipo.identificadores[Array.IndexOf(tipo.identificadores, tolken)+1];
+                }
+            }
+            return "null";
+        }
         private void finalizar()
         {
             this.tolkens.Add(this.tk);
+            this.tk = new tolken();
             this.index++;
         }
         private void identificar()
         {
             string[] tipoR = identificarTipo(this.entrada[this.index]);
-            if (tipoR[1] == "False")
+            this.conjuntoTk = conjunto();
+            if (tipoR[1] == "False" && this.conjuntoTk == false)
             {
                 this.tk.identificador = this.entrada[this.index];
                 this.tk.tipo = tipoR[0];
                 finalizar();
             }
-            else if (tipoR[1] == "True" && conjuntoTk == false)
+            else if (tipoR[1] == "True" && this.conjuntoTk == false)
             {
+
                 this.tk.identificador = this.entrada[this.index];
-                this.conjuntoTk = true;
+                this.pilha.Add(this.entrada[this.index]);
                 this.index++;
             }
-            else if (tipoR[1] == "True" && conjuntoTk == true)
+            else if (tipoR[1] == "True" && this.entrada[this.index] == tolkenProximo(this.pilha.Last()) && this.pilha.Count == 1)
             {
                 this.tk.identificador += this.entrada[this.index];
+                this.pilha.RemoveAt(this.pilha.Count - 1);
                 this.tk.tipo = tipoR[0];
-                this.conjuntoTk = false;
+                Console.WriteLine("fechou " + tk.identificador);
                 finalizar();
+
             }
-            else if (conjuntoTk)
+            else if (tipoR[1] == "True" && this.entrada[this.index] == tolkenProximo(this.pilha.Last()) && this.pilha.Count > 1)
+            {
+
+                this.tk.identificador += this.entrada[this.index];
+                this.pilha.RemoveAt(this.pilha.Count - 1);
+                this.index++;
+
+            }
+            else if (tipoR[1] == "True")
             {
                 this.tk.identificador += this.entrada[this.index];
-                this.tk.tipo = tipoR[0];
+                this.pilha.Add(this.entrada[this.index]);
                 this.index++;
             }
             else
             {
-                this.tk.identificador = this.entrada[this.index];
-                this.tk.tipo = tipoR[0];
-                finalizar();
+                this.tk.identificador += this.entrada[this.index];
+                this.index++;
             }
         }
         public tolken[] Parsing()

@@ -11,7 +11,7 @@ namespace TolkenParser
         static void Main(string[] args)
         {
             //entrada teste
-            string entrada = "funcao pegardata variavel lista {aa} aaa";
+            string entrada = "funcao ((pegardata)) variavel lista {aa} aaa";
 
             //tokenizer
             //separadores
