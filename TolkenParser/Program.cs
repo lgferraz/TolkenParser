@@ -17,11 +17,11 @@ namespace TolkenParser
             //separadores
             string[] separadores = new string[] { "=", "{", "}", "(", ")", ";", ",", "." };
             //instancia o tokenizer
-            Tolkenizer obj = new Tolkenizer();
+            Tolkenizer tolkenizer = new Tolkenizer(separadores);
             //tolkeniza
-            obj.Tokenizar(entrada, separadores);
+            tolkenizer.Tokenizar(entrada);
             //coloca tolkens numa lista e mostra o resultado
-            string[] saida = obj.Tolkens();
+            string[] saida = tolkenizer.Tolkens();
 
             //parser
             //define algumas listas de identificadores

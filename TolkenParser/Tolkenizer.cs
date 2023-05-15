@@ -14,11 +14,17 @@ namespace TolkenParser
         private List<string> tolkens = new List<string>();
         private string[] separadores;
 
-        public void Tokenizar(string linha, string[] separadores)
+        public Tolkenizer(string[] separadores)
+        {
+            this.separadores = separadores;
+        }
+        public void Tokenizar(string linha)
         {
             this.index = 0;
+            this.caractere = "";
+            this.tolken = "";
+            this.tolkens = new List<string>();
             this.linha = linha;
-            this.separadores = separadores;
         }
 
         private void finalizarTolken()
