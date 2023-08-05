@@ -11,7 +11,7 @@ namespace TolkenParser
         static void Main(string[] args)
         {
             //entrada teste
-            string entrada = "funcao ((pegardata)) variavel lista {aa} aaa";
+            string entrada = "funcao {aa} a (a((pegardata aaa)) aaaa) variavel lista  aaa";
 
             //tokenizer
             //separadores
@@ -22,7 +22,10 @@ namespace TolkenParser
             tolkenizer.Tokenizar(entrada);
             //coloca tolkens numa lista e mostra o resultado
             string[] saida = tolkenizer.Tolkens();
-
+            foreach (string s in saida)
+            {
+                Console.WriteLine(s);
+            }
             //parser
             //define algumas listas de identificadores
             string[] funcoes = new string[] { "funcao", "pegardata" };
@@ -46,11 +49,26 @@ namespace TolkenParser
             //instancia parser
             Parser parser = new Parser(saida, tolkens);
             //faz parsing
-            tolken[] tolkens_parser = parser.Parsing();
+            List<object> tolkens_parser = parser.Parsing();
 
-            foreach(tolken tk in tolkens_parser)
+            foreach(object tk in tolkens_parser)
             {
-                Console.WriteLine(tk.identificador + " | " + tk.tipo);
+                if (tk is List<tolken>)
+                {
+                    Console.Write("bloco: ");
+                    foreach (object t in (List <tolken>)tk)
+                    {
+                        tolken t1 = (tolken)t;
+                        Console.Write(" "+t1.identificador);
+                    }
+                    Console.Write("\n");
+                }
+                else
+                {
+                    tolken t1 = (tolken)tk;
+                    Console.WriteLine("tolken: "+t1.identificador);
+                }
+                    
             }
 
             Console.ReadKey();
