@@ -22,9 +22,10 @@ namespace TolkenParser
             tolkenizer.Tokenizar(entrada);
             //coloca tolkens numa lista e mostra o resultado
             string[] saida = tolkenizer.Tolkens();
+            Console.Write("Tolkens: ");
             foreach (string s in saida)
             {
-                Console.WriteLine(s);
+                Console.Write(s+" ");
             }
             //parser
             //define algumas listas de identificadores
@@ -50,7 +51,7 @@ namespace TolkenParser
             Parser parser = new Parser(saida, tolkens);
             //faz parsing
             List<object> tolkens_parser = parser.Parsing();
-
+            Console.WriteLine("\n///Pos parsing///");
             foreach(object tk in tolkens_parser)
             {
                 if (tk is List<tolken>)
