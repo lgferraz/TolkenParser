@@ -67,7 +67,7 @@ namespace TolkenParser
                 else
                 {
                     tolken t1 = (tolken)tk;
-                    Console.WriteLine("tolken: "+t1.identificador);
+                    Console.WriteLine("tolken: "+t1.identificador+" tipo: "+t1.tipo);
                 }
                     
             }
